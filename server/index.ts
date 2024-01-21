@@ -25,6 +25,10 @@ redisClient
 
 app.get("/photos", async (req, res) => {
   const albumId = req.query.albumId;
+
+  const cached = await redisClient.get("photos");
+  if (cached) return res.json(JSON.parse(cached));
+
   const { data } = await axios.get(
     "https://jsonplaceholder.typicode.com/photos",
     { params: { albumId } }
