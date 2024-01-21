@@ -25,4 +25,6 @@ app.get("/photos/:id", async (req, res) => {
   res.json(data);
 });
 
-app.listen(_PORT);
+app.listen(_PORT, () => {
+  console.log(`listening on port: ${_PORT}`);
+});
