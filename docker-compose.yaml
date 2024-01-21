@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:6.2-alpine
+    container_name: rdb
+    restart: always
+    ports:
+      - "6379:6379"
+  redis_insight:
+    image: redislabs/redisinsight:latest
+    container_name: rdb-insight
+    restart: always
+    ports:
+      - 8001:8001
+    volumes:
+      - rdb-insight-volume-data:/db
+volumes:
+  rdb-volume-data:
+  rdb-insight-volume-data:
