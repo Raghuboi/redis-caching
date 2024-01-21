@@ -1,10 +1,27 @@
-import express from "express";
+import express, { json } from "express";
 import cors from "cors";
 import axios from "axios";
+import * as redis from "redis";
 
 const _PORT = 3000;
+const DEFAULT_EXPIRATION = 120;
+
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+const redisClient = redis.createClient({
+  socket: { host: "rdb", port: 6379 },
+});
+
+redisClient
+  .connect()
+  .then(() => {
+    console.log("Connected to Redis");
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 
 app.get("/photos", async (req, res) => {
   const albumId = req.query.albumId;
@@ -12,7 +29,7 @@ app.get("/photos", async (req, res) => {
     "https://jsonplaceholder.typicode.com/photos",
     { params: { albumId } }
   );
-
+  redisClient.setEx("photos", DEFAULT_EXPIRATION, JSON.stringify(data));
   res.json(data);
 });
 
