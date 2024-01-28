@@ -27,6 +27,7 @@ app.get("/photos", async (req, res) => {
   const albumId = req.query.albumId;
 
   const cached = await redisClient.get("photos");
+  debugger;
   if (cached) return res.json(JSON.parse(cached));
 
   const { data } = await axios.get(

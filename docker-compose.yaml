@@ -22,8 +22,13 @@ services:
     restart: always
     ports:
       - "3000:3000"
+      - "9229:9229"
     volumes:
       - ./server:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
 volumes:
   rdb-volume-data:
   rdb-insight-volume-data:
