@@ -18,6 +18,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+      target: development
     container_name: node-server
     restart: always
     ports:

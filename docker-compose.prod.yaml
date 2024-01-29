@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:6.2-alpine
+    container_name: rdb
+    restart: always
+    ports:
+      - "6379:6379"
+  node_server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: production
+    container_name: node-server
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    command: node dist/index.js
